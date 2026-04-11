@@ -98,7 +98,6 @@ async function fetchF2Pool() {
 function workerStatus(w) {
   const s = (w.status || '').toLowerCase();
   if (s === 'online' || s === 'active' || s === '1') return 'online';
-  if (s === 'dead' || s === 'inactive' || s === '3') return 'dead';
   return 'offline';
 }
 
