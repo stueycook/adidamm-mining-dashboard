@@ -30,7 +30,7 @@ async function getBtcPrice() {
 async function fetchLuxor() {
   if (!LUXOR_API_KEY) { console.log('Luxor: no API key'); return null; }
   try {
-    const query = '{ getWorkerDetails(mpn: BTC, uname: "' + LUXOR_SUBACCOUNT + '", first: 1000, duration: {days: 1}) { edges { node { workerName status hashrate updatedAt } } totalCount } }';
+    const query = '{getWorkerDetails(mpn:BTC,uname:"iwah2478",first:1000,duration:{days:1}){edges{node{workerName status hashrate updatedAt}}totalCount}}';
     const res = await fetch('https://api.luxor.tech/graphql', {
       method: 'POST',
       headers: { 'x-lux-api-key': LUXOR_API_KEY, 'Content-Type': 'application/json' },
@@ -79,7 +79,7 @@ async function fetchF2Pool() {
     const raw = wd.workers || wd.data || wd.list || [];
     const workers = raw.map(w => ({
       name: w.name || w.worker_name || '',
-      status: (w.status || '').toLowerCase() === 'online' ? 'online' : 'offline',
+      status: w.last_share_at && (Date.now()/1000 - w.last_share_at) < 900 ? 'online' : 'offline',
       hashrate_24h: w.hashrate_24h || w.h24 || 0,
       hashrate_15m: w.hashrate_15m || w.hashrate || w.h1 || 0,
       reject_rate: w.reject_rate || 0,
