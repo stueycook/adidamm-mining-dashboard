@@ -59,7 +59,7 @@ function workerStatus(w) {
 // ─── Fetch ────────────────────────────────────────────────────────────────────
 
 async function fetchLuxor() {
-  if (!LUXOR_API_KEY || !LUXOR_WORKSPACE) return null;
+  if (!LUXOR_API_KEY) return null;
   try {
 const ws = await luxorGet('/workspace');
 const workspaceId = ws.data?.[0]?.id || ws.id;
