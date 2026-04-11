@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Adidamm Mining Dashboard</title>
+<style>
+  :root{--bg:#090909;--bg2:#0e0e0e;--bg3:#131313;--border:#1a1a1a;--border2:#242424;--text:#e5e5e5;--text2:#888;--text3:#444;--amber:#f59e0b;--green:#22c55e;--red:#ef4444;--blue:#60a5fa}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{background:var(--bg);color:var(--text);font-family:'JetBrains Mono','Fira Code','Courier New',monospace;min-height:100vh}
+
+  header{display:flex;justify-content:space-between;align-items:flex-start;padding:20px 28px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:12px}
+  .logo{font-size:15px;font-weight:700;letter-spacing:3px;color:var(--text)}.logo span{color:var(--amber)}
+  .header-meta{font-size:9px;color:var(--text3);letter-spacing:1.5px;margin-top:4px}
+  .btc-block{text-align:right}
+  .btc-price{font-size:26px;font-weight:700;color:var(--amber);letter-spacing:-1px}
+  .btc-change{font-size:11px;margin-top:2px}
+  .btc-range{font-size:9px;color:var(--text3);margin-top:2px}
+
+  .toggle-bar{display:flex;padding:14px 28px;border-bottom:1px solid var(--border);gap:0}
+  .tog{background:none;border:1px solid var(--border2);color:var(--text3);font-family:inherit;font-size:9px;letter-spacing:2px;padding:7px 18px;cursor:pointer;transition:all .15s}
+  .tog:first-child{border-radius:6px 0 0 6px}
+  .tog:last-child{border-radius:0 6px 6px 0}
+  .tog+.tog{border-left:none}
+  .tog.active{background:var(--amber);border-color:var(--amber);color:#000;font-weight:700}
+  .tog:hover:not(.active){border-color:var(--border2);color:var(--text2)}
+
+  main{padding:20px 28px}
+
+  .alert{background:#1c0a0a;border:1px solid #7f1d1d;border-radius:8px;padding:11px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+  .alert-dot{width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0;animation:blink 1.4s infinite}
+  .alert-txt{font-size:10px;color:var(--red);letter-spacing:.5px;line-height:1.5}
+  .alert-ok{background:#052e16;border-color:#166534}
+  .alert-ok .alert-dot{background:var(--green);animation:none}
+  .alert-ok .alert-txt{color:var(--green)}
+
+  .cards{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-bottom:16px}
+  .card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:14px 16px}
+  .card.hl{border-color:var(--amber);box-shadow:0 0 16px rgba(245,158,11,.08)}
+  .clb{font-size:8px;letter-spacing:2px;color:var(--text3);margin-bottom:7px}
+  .cv{font-size:19px;font-weight:700;letter-spacing:-.5px}
+  .cs{font-size:9px;color:var(--text3);margin-top:3px}
+
+  .strip{display:flex;flex-wrap:wrap;gap:20px;padding:10px 0;margin-bottom:16px;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+  .si{font-size:9px}.sl{color:var(--text3);letter-spacing:2px;margin-right:6px}.sv{color:var(--text);font-weight:700}
+
+  .fleet{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:16px}
+  .fc{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px 14px}
+  .fm{font-size:11px;font-weight:700;color:var(--amber);margin-bottom:8px;letter-spacing:1px}
+  .fr{display:flex;justify-content:space-between;font-size:9px;color:var(--text3);margin-bottom:3px}
+  .fr span:last-child{color:var(--text2)}
+
+  .sec-hdr{font-size:9px;letter-spacing:3px;color:var(--text3);margin-bottom:10px}
+
+  .down-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .down-card{background:var(--bg2);border:1px solid #1c0a0a;border-radius:8px;padding:12px 14px}
+  .dn{font-size:11px;font-weight:700;color:var(--text);margin-bottom:7px;display:flex;flex-wrap:wrap;align-items:center;gap:5px}
+  .dr{display:flex;justify-content:space-between;font-size:9px;color:var(--text3);margin-bottom:3px}
+  .dr span:last-child{color:var(--text2)}
+
+  .badge{display:inline-block;font-size:8px;padding:2px 6px;border-radius:3px;letter-spacing:1px;font-weight:700}
+  .b-off{background:#1c0a0a;color:var(--red);border:1px solid #7f1d1d}
+  .b-dead{background:#1a1a1a;color:var(--text3);border:1px solid var(--border)}
+  .b-pool{background:var(--bg3);color:var(--text3);border:1px solid var(--border);font-size:7px;padding:1px 5px}
+
+  .no-data{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;text-align:center;gap:12px}
+  .no-data-title{font-size:13px;color:var(--text2);letter-spacing:2px}
+  .no-data-sub{font-size:10px;color:var(--text3);line-height:1.7;max-width:400px}
+  code{background:var(--bg2);border:1px solid var(--border2);border-radius:3px;padding:1px 5px;color:var(--amber);font-family:inherit;font-size:10px}
+
+  footer{padding:10px 28px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .ft{font-size:9px;color:var(--text3);letter-spacing:1px}
+
+  .amber{color:var(--amber)}.green{color:var(--green)}.red{color:var(--red)}.blue{color:var(--blue)}.muted{color:var(--text3)}
+
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+  @media(max-width:700px){
+    .cards{grid-template-columns:repeat(2,1fr)}
+    .fleet{grid-template-columns:1fr}
+    .down-grid{grid-template-columns:1fr}
+    header{flex-direction:column}.btc-block{text-align:left}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo">⛏ <span>ADIDAMM</span> MINING DASHBOARD</div>
+    <div class="header-meta" id="headerMeta">LOADING…</div>
+  </div>
+  <div class="btc-block">
+    <div class="btc-price" id="btcPrice">—</div>
+    <div class="btc-change" id="btcChange"></div>
+    <div class="btc-range" id="btcRange"></div>
+  </div>
+</header>
+
+<div class="toggle-bar">
+  <button class="tog active" onclick="setView('daily',this)">DAILY</button>
+  <button class="tog" onclick="setView('weekly',this)">WEEKLY</button>
+  <button class="tog" onclick="setView('monthly',this)">MONTHLY</button>
+  <button class="tog" onclick="setView('90day',this)">90 DAYS</button>
+</div>
+
+<main id="mainContent">
+  <div class="no-data">
+    <div class="no-data-title">LOADING SNAPSHOT…</div>
+    <div class="no-data-sub">Fetching data from <code>data/latest.json</code></div>
+  </div>
+</main>
+
+<footer>
+  <span class="ft" id="nextRefresh"></span>
+  <span class="ft" id="footerRight">ADIDAMM MINING · 590 MACHINES · $0.07/kWh</span>
+</footer>
+
+<script>
+let latest = null;
+let history = [];
+let currentView = 'daily';
+
+const $ = id => document.getElementById(id);
+
+function fmt$(v,dec=2){ if(v===null||v===undefined||isNaN(v)) return '—'; const a=Math.abs(v); return (v<0?'-$':'$')+a.toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec}); }
+function fmtH(hs){ if(!hs) return '—'; if(hs>=1e18) return (hs/1e18).toFixed(2)+' EH/s'; if(hs>=1e15) return (hs/1e15).toFixed(2)+' PH/s'; if(hs>=1e12) return (hs/1e12).toFixed(2)+' TH/s'; if(hs>=1e9) return (hs/1e9).toFixed(2)+' GH/s'; return hs.toFixed(0)+' H/s'; }
+function fmtPct(v){ return v!==null&&!isNaN(v) ? parseFloat(v).toFixed(1)+'%' : '—'; }
+function fmtBTC(v){ return v!==null&&!isNaN(v) ? parseFloat(v).toFixed(6)+' BTC' : '—'; }
+function fmtKw(v){ return v!==null&&!isNaN(v) ? parseFloat(v).toFixed(0).toLocaleString()+' kW' : '—'; }
+function sinceLabel(ts){
+  if(!ts) return '>24h';
+  const d=new Date(ts), diff=Date.now()-d.getTime();
+  if(diff<3600000) return Math.floor(diff/60000)+'m';
+  if(diff<86400000) return Math.floor(diff/3600000)+'h '+Math.floor((diff%3600000)/60000)+'m';
+  return Math.floor(diff/86400000)+'d+';
+}
+function fmtDate(iso){
+  if(!iso) return '—';
+  const d=new Date(iso+'T00:00:00+10:00');
+  return d.toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'});
+}
+
+// ─── Roll up N days of history into aggregate ────────────────────────────────
+function rollup(days) {
+  const slice = history.slice(0, days);
+  if (!slice.length) return null;
+  const rev   = slice.reduce((s,d) => s + (d.revenue?.usd || 0), 0);
+  const pow   = slice.reduce((s,d) => s + (d.power?.daily_cost || 0), 0);
+  const net   = slice.reduce((s,d) => s + (d.revenue?.net_profit || 0), 0);
+  const btcM  = slice.reduce((s,d) => s + (d.revenue?.btc_mined || 0), 0);
+  const avgOn = Math.round(slice.reduce((s,d) => s + (d.fleet?.online || 0), 0) / slice.length);
+  const maxOff= Math.max(...slice.map(d => d.fleet?.offline || 0));
+  const avgUtil = slice.reduce((s,d) => s + (d.fleet?.utilisation || 0), 0) / slice.length;
+  // Worst offline workers across the period (deduplicated by name)
+  const downMap = {};
+  slice.forEach(d => {
+    (d.down_workers || []).forEach(w => {
+      if (!downMap[w.name]) downMap[w.name] = { ...w, days_seen: 0 };
+      downMap[w.name].days_seen++;
+    });
+  });
+  const topDown = Object.values(downMap).sort((a,b) => b.days_seen - a.days_seen).slice(0, 6);
+  return { rev, pow, net, btcM, avgOn, maxOff, avgUtil, topDown, days: slice.length };
+}
+
+// ─── Render ──────────────────────────────────────────────────────────────────
+function render() {
+  if (!latest) return;
+  const view = currentView;
+
+  // Header
+  const btc = latest.btc;
+  if (btc) {
+    $('btcPrice').textContent = '$' + Math.round(btc.price).toLocaleString();
+    const chgEl = $('btcChange');
+    chgEl.textContent = (btc.change24h >= 0 ? '▲ +' : '▼ ') + btc.change24h.toFixed(2) + '% 24h';
+    chgEl.style.color = btc.change24h >= 0 ? 'var(--green)' : 'var(--red)';
+    if (btc.high24h && btc.low24h)
+      $('btcRange').textContent = 'H $' + Math.round(btc.high24h).toLocaleString() + '  ·  L $' + Math.round(btc.low24h).toLocaleString();
+  }
+
+  // Snapshot date label
+  const snapDate = fmtDate(latest.date);
+  const periodLabels = { daily: 'DAILY SNAPSHOT · '+snapDate, weekly: '7-DAY VIEW', monthly: '30-DAY VIEW', '90day': '90-DAY VIEW' };
+  $('headerMeta').textContent = periodLabels[view] + ' · 06:00 AEST · 590 MACHINES · $0.07/kWh';
+
+  // Data source
+  let rev, pow, net, btcM, online, offline, util, topDown, periodLabel;
+
+  if (view === 'daily') {
+    rev     = latest.revenue?.usd;
+    pow     = latest.power?.daily_cost;
+    net     = latest.revenue?.net_profit;
+    btcM    = latest.revenue?.btc_mined;
+    online  = latest.fleet?.online;
+    offline = latest.fleet?.offline;
+    util    = latest.fleet?.utilisation;
+    topDown = (latest.down_workers || []).slice(0, 6);
+    periodLabel = 'TODAY';
+  } else {
+    const nDays = view === 'weekly' ? 7 : view === 'monthly' ? 30 : 90;
+    const agg = rollup(nDays);
+    if (!agg) { renderNoData('Not enough history yet — check back in a few days.'); return; }
+    rev     = agg.rev;
+    pow     = agg.pow;
+    net     = agg.net;
+    btcM    = agg.btcM;
+    online  = agg.avgOn;
+    offline = agg.maxOff;
+    util    = agg.avgUtil;
+    topDown = agg.topDown;
+    periodLabel = nDays + '-DAY TOTAL';
+  }
+
+  // Alert
+  const alertOk = (offline || 0) === 0;
+  const alertHtml = alertOk
+    ? `<div class="alert alert-ok"><div class="alert-dot"></div><div class="alert-txt">All machines online — fleet running at full capacity</div></div>`
+    : view === 'daily'
+      ? `<div class="alert"><div class="alert-dot"></div><div class="alert-txt">${offline} machines down · check the list below · estimated lost revenue factored into net profit</div></div>`
+      : `<div class="alert"><div class="alert-dot"></div><div class="alert-txt">${offline} peak machines offline in this period · top offenders listed below · avg utilisation ${fmtPct(util)}</div></div>`;
+
+  // Cards
+  const netCls = net === null ? 'muted' : net >= 0 ? 'green' : 'red';
+  const cardsHtml = `
+    <div class="cards">
+      <div class="card"><div class="clb">REVENUE</div><div class="cv amber">${fmt$(rev)}</div><div class="cs">${fmtBTC(btcM)}</div></div>
+      <div class="card"><div class="clb">POWER COST</div><div class="cv blue">${fmt$(pow)}</div><div class="cs">${fmtKw(latest.power?.online_kw)} online</div></div>
+      <div class="card hl"><div class="clb">NET PROFIT</div><div class="cv ${netCls}">${fmt$(net)}</div><div class="cs">${net!==null?(net>=0?'profitable':'loss position'):'add pool revenue'}</div></div>
+      <div class="card"><div class="clb">${view==='daily'?'ONLINE NOW':'AVG ONLINE'}</div><div class="cv green">${online ?? '—'}</div><div class="cs">of 590 machines</div></div>
+      <div class="card"><div class="clb">${view==='daily'?'OFFLINE / DEAD':'PEAK OFFLINE'}</div><div class="cv ${(offline||0)>0?'red':'muted'}">${offline ?? '—'}</div><div class="cs">${(offline||0)>0?'need attention':'all clear'}</div></div>
+      <div class="card"><div class="clb">${view==='daily'?'FLEET UTIL':'AVG UTIL'}</div><div class="cv muted">${fmtPct(util)}</div><div class="cs">${view==='daily'?'today':'period avg'}</div></div>
+    </div>`;
+
+  // Strip
+  const maxCost = latest.power?.max_daily_cost;
+  const stripHtml = `
+    <div class="strip">
+      <div class="si"><span class="sl">RATE</span><span class="sv">$0.07/kWh</span></div>
+      <div class="si"><span class="sl">MAX FLEET DRAW</span><span class="sv">2,301 kW</span></div>
+      <div class="si"><span class="sl">MAX ${view==='daily'?'DAILY':'PERIOD'} COST</span><span class="sv">${view==='daily'?fmt$(maxCost):fmt$(maxCost*(view==='weekly'?7:view==='monthly'?30:90))}</span></div>
+      <div class="si"><span class="sl">POOLS</span><span class="sv">Luxor + F2Pool</span></div>
+    </div>`;
+
+  // Fleet per-model breakdown — from latest snapshot counts
+  const lx = latest.pools?.luxor;
+  const f2 = latest.pools?.f2pool;
+  const fleetHtml = `
+    <div class="fleet">
+      <div class="fc"><div class="fm">A15 · 160 MACHINES</div>
+        <div class="fr"><span>${view==='daily'?'Online':'Avg online'}</span><span>—</span></div>
+        <div class="fr"><span>Offline / dead</span><span class="red">—</span></div>
+        <div class="fr"><span>${view==='daily'?'Daily':'Period'} cost</span><span class="blue">${fmt$(160*3900/1000*24*0.07*(view==='weekly'?7:view==='monthly'?30:view==='90day'?90:1))}</span></div>
+      </div>
+      <div class="fc"><div class="fm">S21 · 130 MACHINES</div>
+        <div class="fr"><span>${view==='daily'?'Online':'Avg online'}</span><span>—</span></div>
+        <div class="fr"><span>Offline / dead</span><span class="red">—</span></div>
+        <div class="fr"><span>${view==='daily'?'Daily':'Period'} cost</span><span class="blue">${fmt$(130*3900/1000*24*0.07*(view==='weekly'?7:view==='monthly'?30:view==='90day'?90:1))}</span></div>
+      </div>
+      <div class="fc"><div class="fm">S21+ · 300 MACHINES</div>
+        <div class="fr"><span>${view==='daily'?'Online':'Avg online'}</span><span>—</span></div>
+        <div class="fr"><span>Offline / dead</span><span class="red">—</span></div>
+        <div class="fr"><span>${view==='daily'?'Daily':'Period'} cost</span><span class="blue">${fmt$(300*3900/1000*24*0.07*(view==='weekly'?7:view==='monthly'?30:view==='90day'?90:1))}</span></div>
+      </div>
+    </div>`;
+
+  // Down workers
+  let downHtml = '';
+  if (topDown && topDown.length > 0) {
+    const cards = topDown.map(w => {
+      const statusCls = w.status === 'dead' ? 'b-dead' : 'b-off';
+      const statusLabel = w.status === 'dead' ? '● DEAD' : '● OFFLINE';
+      const durLabel = view === 'daily' ? sinceLabel(w.last_share) : (w.days_seen + ' days');
+      return `<div class="down-card">
+        <div class="dn">
+          ${w.name}
+          <span class="badge ${statusCls}">${statusLabel}</span>
+          <span class="badge b-pool">${(w.pool||'').toUpperCase()}</span>
+        </div>
+        <div class="dr"><span>${view==='daily'?'Down for':'Days offline'}</span><span class="red">${durLabel}</span></div>
+        <div class="dr"><span>Last share</span><span>${w.last_share ? new Date(w.last_share).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}) : '—'}</span></div>
+      </div>`;
+    }).join('');
+    const title = view === 'daily' ? 'MACHINES DOWN NOW' : 'WORST OFFENDERS THIS PERIOD';
+    downHtml = `<div class="sec-hdr">${title}</div><div class="down-grid">${cards}</div>`;
+  }
+
+  $('mainContent').innerHTML = alertHtml + cardsHtml + stripHtml + fleetHtml + downHtml;
+
+  // Footer
+  const tomorrow = new Date(latest.date + 'T06:00:00+10:00');
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  $('nextRefresh').textContent = 'NEXT REFRESH · 06:00 AEST · ' + tomorrow.toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'}).toUpperCase();
+}
+
+function renderNoData(msg) {
+  $('mainContent').innerHTML = `<div class="no-data">
+    <div class="no-data-title">NO DATA YET</div>
+    <div class="no-data-sub">${msg}</div>
+  </div>`;
+}
+
+function setView(key, btn) {
+  document.querySelectorAll('.tog').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentView = key;
+  render();
+}
+window.setView = setView;
+
+// ─── Load data ───────────────────────────────────────────────────────────────
+async function loadData() {
+  try {
+    const [latestRes, historyRes] = await Promise.all([
+      fetch('data/latest.json?t=' + Date.now()),
+      fetch('data/history.json?t=' + Date.now()),
+    ]);
+    if (!latestRes.ok) throw new Error('latest.json not found');
+    latest = await latestRes.json();
+    try { history = await historyRes.json(); } catch { history = [latest]; }
+    render();
+  } catch {
+    $('mainContent').innerHTML = `<div class="no-data">
+      <div class="no-data-title">NO SNAPSHOT FOUND</div>
+      <div class="no-data-sub">
+        The dashboard hasn't run its first data fetch yet.<br><br>
+        Go to your GitHub repo → <code>Actions</code> → <code>Daily Mining Snapshot</code> → <code>Run workflow</code> to trigger it manually.
+      </div>
+    </div>`;
+    $('headerMeta').textContent = 'ADIDAMM MINING · 590 MACHINES · AWAITING FIRST SNAPSHOT';
+  }
+}
+
+loadData();
+</script>
+</body>
+</html>

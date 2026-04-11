@@ -1,0 +1,41 @@
+name: Daily Mining Snapshot
+
+on:
+  schedule:
+    - cron: '0 20 * * *'   # 6:00 AM AEST (UTC+10) every day
+  workflow_dispatch:         # also lets you trigger manually from GitHub UI
+
+jobs:
+  fetch-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Fetch mining data
+        env:
+          LUXOR_API_KEY: ${{ secrets.LUXOR_API_KEY }}
+          LUXOR_WORKSPACE: ${{ secrets.LUXOR_WORKSPACE }}
+          F2POOL_SECRET: ${{ secrets.F2POOL_SECRET }}
+          F2POOL_USER: ${{ secrets.F2POOL_USER }}
+          POWER_RATE: '0.07'
+        run: node fetch-data.js
+
+      - name: Commit and push data
+        run: |
+          git config user.name  "Adidamm Mining Bot"
+          git config user.email "mining-bot@adidamm"
+          git add data/
+          git diff --staged --quiet || git commit -m "snapshot: $(TZ='Australia/Sydney' date +'%Y-%m-%d %H:%M AEST')"
+          git push
