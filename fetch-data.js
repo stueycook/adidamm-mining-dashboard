@@ -30,11 +30,19 @@ async function getBtcPrice() {
 async function fetchLuxor() {
   if (!LUXOR_API_KEY) { console.log('Luxor: no API key'); return null; }
   try {
-    const query = '{getWorkerDetails(mpn:BTC,uname:"iwah2478",first:1000,duration:{days:1}){edges{node{workerName status hashrate updatedAt}}totalCount}}';
+    const q = [
+      '{getWorkerDetails(',
+      'mpn:BTC,',
+      'uname:"iwah2478",',
+      'first:1000,',
+      'duration:{days:1})',
+      '{edges{node{workerName status hashrate updatedAt}}',
+      'totalCount}}'
+    ].join('');
     const res = await fetch('https://api.luxor.tech/graphql', {
       method: 'POST',
       headers: { 'x-lux-api-key': LUXOR_API_KEY, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query }),
+      body: JSON.stringify({ query: q }),
     });
     const d = await res.json();
     console.log('Luxor response:', JSON.stringify(d).slice(0, 400));
