@@ -1,234 +1,150 @@
 /**
- * fetch-data.js
- * Runs inside GitHub Actions. Calls Luxor + F2Pool + Binance,
- * writes data/latest.json and appends to data/history.json (90-day rolling).
+ * fetch-data.js — Adidamm Mining Dashboard
+ * Fixed: BTC price fallback, Luxor workspace discovery, F2Pool worker parsing
  */
 
 import fetch from 'node-fetch';
 import fs from 'fs';
 import path from 'path';
 
-const LUXOR_API_KEY   = process.env.LUXOR_API_KEY   || '';
-const F2POOL_SECRET   = process.env.F2POOL_SECRET    || '';
-const F2POOL_USER     = process.env.F2POOL_USER      || '';
-const POWER_RATE      = parseFloat(process.env.POWER_RATE || '0.07');
-const MACHINE_WATTS   = 3900;
-const TOTAL_MACHINES  = 590;
+const LUXOR_API_KEY  = process.env.LUXOR_API_KEY  || '';
+const F2POOL_SECRET  = process.env.F2POOL_SECRET   || '';
+const F2POOL_USER    = process.env.F2POOL_USER     || '';
+const POWER_RATE     = parseFloat(process.env.POWER_RATE || '0.07');
+const MACHINE_WATTS  = 3900;
+const TOTAL_MACHINES = 590;
 
 const DATA_DIR = './data';
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR);
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
+async function getBtcPrice() {
+  try {
+    const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true', { headers: { 'Accept': 'application/json' } });
+    const d = await res.json();
+    if (d?.bitcoin?.usd) return { price: d.bitcoin.usd, change24h: d.bitcoin.usd_24h_change || 0, high24h: null, low24h: null };
+  } catch (e) { console.log('CoinGecko failed:', e.message); }
+  try {
+    const res = await fetch('https://api.coinbase.com/v2/prices/BTC-USD/spot');
+    const d = await res.json();
+    if (d?.data?.amount) return { price: parseFloat(d.data.amount), change24h: null, high24h: null, low24h: null };
+  } catch (e) { console.log('Coinbase failed:', e.message); }
+  return null;
+}
 
 async function luxorGet(endpoint) {
-  const res = await fetch(`https://app.luxor.tech/api/v2${endpoint}`, {
-    headers: { Authorization: LUXOR_API_KEY, 'Content-Type': 'application/json' },
-  });
-  if (!res.ok) throw new Error(`Luxor ${endpoint} → ${res.status}`);
-  return res.json();
+  const res = await fetch(`https://app.luxor.tech/api/v2${endpoint}`, { headers: { Authorization: LUXOR_API_KEY, 'Content-Type': 'application/json' } });
+  const text = await res.text();
+  if (!res.ok) throw new Error(`Luxor ${endpoint} → ${res.status}: ${text.slice(0,200)}`);
+  return JSON.parse(text);
 }
-
-async function f2poolPost(endpoint, body = {}) {
-  const res = await fetch(`https://api.f2pool.com/v2${endpoint}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'F2P-API-SECRET': F2POOL_SECRET },
-    body: JSON.stringify({ currency: 'bitcoin', user_name: F2POOL_USER, ...body }),
-  });
-  if (!res.ok) throw new Error(`F2Pool ${endpoint} → ${res.status}`);
-  return res.json();
-}
-
-async function getBtcPrice() {
-  const res = await fetch('https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT');
-  const d = await res.json();
-  return {
-    price: parseFloat(d.lastPrice),
-    change24h: parseFloat(d.priceChangePercent),
-    high24h: parseFloat(d.highPrice),
-    low24h: parseFloat(d.lowPrice),
-  };
-}
-
-function workerStatus(w) {
-  const s = (w.status || '').toLowerCase();
-  if (s === 'online' || s === 'active') return 'online';
-  if (s === 'dead' || s === 'inactive') return 'dead';
-  return 'offline';
-}
-
-// ─── Fetch ────────────────────────────────────────────────────────────────────
 
 async function fetchLuxor() {
-  if (!LUXOR_API_KEY) return null;
+  if (!LUXOR_API_KEY) { console.log('Luxor: no API key'); return null; }
   try {
-const ws = await luxorGet('/workspace');
-const workspaceId = ws.data?.[0]?.id || ws.id;
-const subs = await luxorGet(`/workspace/${workspaceId}/subaccounts`);
-const subList = subs.data || subs.subaccounts || [];
-    const results = await Promise.allSettled(
-      subList.map(s => luxorGet(`/subaccount/${s.name || s.id}/workers?status=all&limit=1000`))
-    );
-    const workers = results.flatMap((r, i) => {
-      if (r.status !== 'fulfilled') return [];
-      return (r.value?.data || r.value?.workers || []).map(w => ({
-        name: w.name || w.worker_name || '',
-        status: workerStatus(w),
-        hashrate_24h: w.hashrate_24h || w.hashrate24h || 0,
-        hashrate_15m: w.hashrate_15m || w.hashrate || 0,
-        reject_rate: w.reject_rate || w.rejected_rate || 0,
-        last_share: w.last_share_at || w.last_share || null,
-        subaccount: subList[i]?.name || subList[i]?.id || '',
-        pool: 'luxor',
-      }));
+    const wsResp = await luxorGet('/workspace');
+    console.log('Luxor workspace:', JSON.stringify(wsResp).slice(0,300));
+    let workspaceId = null;
+    if (Array.isArray(wsResp)) workspaceId = wsResp[0]?.id || wsResp[0]?.slug;
+    else if (wsResp?.data) { const d = Array.isArray(wsResp.data) ? wsResp.data[0] : wsResp.data; workspaceId = d?.id || d?.slug; }
+    else workspaceId = wsResp?.id || wsResp?.slug;
+    if (!workspaceId) throw new Error('No workspace ID in: ' + JSON.stringify(wsResp).slice(0,200));
+    console.log('Luxor workspace ID:', workspaceId);
+
+    const subsResp = await luxorGet(`/workspace/${workspaceId}/subaccounts`);
+    console.log('Luxor subaccounts:', JSON.stringify(subsResp).slice(0,300));
+    const subList = Array.isArray(subsResp) ? subsResp : (subsResp?.data || subsResp?.subaccounts || []);
+    if (!subList.length) { console.log('Luxor: no subaccounts'); return null; }
+
+    const results = await Promise.allSettled(subList.map(s => luxorGet(`/subaccount/${s.name || s.slug || s.id}/workers?status=all&limit=1000`)));
+    const workers = [];
+    results.forEach((r, i) => {
+      if (r.status !== 'fulfilled') { console.log(`Luxor sub ${i} failed:`, r.reason?.message); return; }
+      console.log(`Luxor sub ${i}:`, JSON.stringify(r.value).slice(0,200));
+      const raw = Array.isArray(r.value) ? r.value : (r.value?.data || r.value?.workers || []);
+      raw.forEach(w => workers.push({ name: w.name || w.worker_name || w.workerName || '', status: workerStatus(w), hashrate_24h: w.hashrate_24h || w.hashrate24h || 0, hashrate_15m: w.hashrate_15m || w.hashrate || 0, reject_rate: w.reject_rate || 0, last_share: w.last_share_at || w.last_share || null, pool: 'luxor' }));
     });
     const online = workers.filter(w => w.status === 'online').length;
     const offline = workers.filter(w => w.status === 'offline').length;
     const dead = workers.filter(w => w.status === 'dead').length;
+    console.log(`Luxor: ${online} online, ${offline} offline, ${dead} dead`);
     return { workers, online, offline, dead, total: workers.length };
-  } catch (e) {
-    console.error('Luxor fetch failed:', e.message);
-    return null;
-  }
+  } catch (e) { console.error('Luxor failed:', e.message); return null; }
+}
+
+async function f2poolPost(endpoint, body = {}) {
+  const res = await fetch(`https://api.f2pool.com/v2${endpoint}`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'F2P-API-SECRET': F2POOL_SECRET }, body: JSON.stringify({ currency: 'bitcoin', user_name: F2POOL_USER, ...body }) });
+  const text = await res.text();
+  if (!res.ok) throw new Error(`F2Pool ${endpoint} → ${res.status}: ${text.slice(0,200)}`);
+  return JSON.parse(text);
 }
 
 async function fetchF2Pool() {
-  if (!F2POOL_SECRET || !F2POOL_USER) return null;
+  if (!F2POOL_SECRET || !F2POOL_USER) { console.log('F2Pool: no credentials'); return null; }
   try {
-    const [hr, wd] = await Promise.all([
-      f2poolPost('/hash_rate/info'),
-      f2poolPost('/hash_rate/worker/list'),
-    ]);
-    const raw = wd.workers || wd.data || [];
-    const workers = raw.map(w => ({
-      name: w.name || w.worker_name || '',
-      status: workerStatus(w),
-      hashrate_24h: w.hashrate_24h || 0,
-      hashrate_15m: w.hashrate_15m || w.hashrate || 0,
-      reject_rate: w.reject_rate || w.rejected_rate || 0,
-      last_share: w.last_share_at || w.last_share || null,
-      pool: 'f2pool',
-    }));
+    const [hr, wd] = await Promise.all([f2poolPost('/hash_rate/info'), f2poolPost('/hash_rate/worker/list')]);
+    console.log('F2Pool hr:', JSON.stringify(hr).slice(0,300));
+    console.log('F2Pool workers:', JSON.stringify(wd).slice(0,300));
+    const raw = wd.workers || wd.data || wd.list || wd.items || [];
+    console.log(`F2Pool: ${raw.length} workers found`);
+    const workers = raw.map(w => ({ name: w.name || w.worker_name || w.workerName || '', status: workerStatus(w), hashrate_24h: w.hashrate_24h || w.h24 || 0, hashrate_15m: w.hashrate_15m || w.hashrate || w.h1 || 0, reject_rate: w.reject_rate || 0, last_share: w.last_share_at || w.last_share || w.last_active || null, pool: 'f2pool' }));
     const online = workers.filter(w => w.status === 'online').length;
     const offline = workers.filter(w => w.status === 'offline').length;
     const dead = workers.filter(w => w.status === 'dead').length;
-    return {
-      workers,
-      online, offline, dead, total: workers.length,
-      hashrate_24h: hr.hashrate_24h || 0,
-      mined_24h: hr.mined_24h || hr.revenue_24h || 0,
-      estimated_revenue: hr.estimated_revenue_24h || null,
-    };
-  } catch (e) {
-    console.error('F2Pool fetch failed:', e.message);
-    return null;
-  }
+    console.log(`F2Pool: ${online} online, ${offline} offline, ${dead} dead`);
+    return { workers, online, offline, dead, total: workers.length, hashrate_24h: hr.hashrate_24h || hr.h24 || 0, mined_24h: hr.mined_24h || hr.revenue_24h || hr.earned || 0 };
+  } catch (e) { console.error('F2Pool failed:', e.message); return null; }
 }
 
-// ─── Compute snapshot ─────────────────────────────────────────────────────────
+function workerStatus(w) {
+  const s = (w.status || '').toLowerCase();
+  if (s === 'online' || s === 'active' || s === '1') return 'online';
+  if (s === 'dead' || s === 'inactive' || s === '3') return 'dead';
+  return 'offline';
+}
 
 function buildSnapshot(btc, luxor, f2pool) {
   const now = new Date();
-  const sydneyDate = new Intl.DateTimeFormat('en-AU', {
-    timeZone: 'Australia/Sydney', year: 'numeric', month: '2-digit', day: '2-digit',
-  }).format(now).split('/').reverse().join('-'); // YYYY-MM-DD
-
-  // Combined worker counts
-  const luxorOnline  = luxor?.online  || 0;
-  const luxorOffline = luxor?.offline || 0;
-  const luxorDead    = luxor?.dead    || 0;
-  const f2Online     = f2pool?.online  || 0;
-  const f2Offline    = f2pool?.offline || 0;
-  const f2Dead       = f2pool?.dead    || 0;
-
-  const totalOnline  = luxorOnline + f2Online;
+  const sydneyDate = new Intl.DateTimeFormat('en-AU', { timeZone: 'Australia/Sydney', year: 'numeric', month: '2-digit', day: '2-digit' }).format(now).split('/').reverse().join('-');
+  const luxorOnline = luxor?.online || 0, luxorOffline = luxor?.offline || 0, luxorDead = luxor?.dead || 0;
+  const f2Online = f2pool?.online || 0, f2Offline = f2pool?.offline || 0, f2Dead = f2pool?.dead || 0;
+  const totalOnline = luxorOnline + f2Online;
   const totalOffline = luxorOffline + f2Offline + luxorDead + f2Dead;
-  const fleetUtil    = TOTAL_MACHINES > 0 ? (totalOnline / TOTAL_MACHINES) * 100 : 0;
-
-  // Power
-  const onlineWatts   = totalOnline * MACHINE_WATTS;
+  const onlineWatts = totalOnline * MACHINE_WATTS;
   const dailyPowerCost = (onlineWatts / 1000) * 24 * POWER_RATE;
-  const maxDailyPower  = (TOTAL_MACHINES * MACHINE_WATTS / 1000) * 24 * POWER_RATE;
-
-  // Revenue — prefer pool-reported, fall back to hashrate estimate
+  const maxDailyPower = (TOTAL_MACHINES * MACHINE_WATTS / 1000) * 24 * POWER_RATE;
   const mined24h = f2pool?.mined_24h || 0;
-  const revenue  = mined24h && btc?.price ? mined24h * btc.price : null;
+  const revenue = mined24h && btc?.price ? mined24h * btc.price : null;
   const netProfit = revenue !== null ? revenue - dailyPowerCost : null;
-
-  // Offline machine list (top offenders by pool order)
-  const allWorkers = [
-    ...(luxor?.workers || []),
-    ...(f2pool?.workers || []),
-  ];
-  const downWorkers = allWorkers
-    .filter(w => w.status !== 'online')
-    .map(w => ({
-      name: w.name,
-      status: w.status,
-      pool: w.pool,
-      last_share: w.last_share,
-    }));
-
+  const allWorkers = [...(luxor?.workers || []), ...(f2pool?.workers || [])];
+  const downWorkers = allWorkers.filter(w => w.status !== 'online').map(w => ({ name: w.name, status: w.status, pool: w.pool, last_share: w.last_share }));
   return {
-    date: sydneyDate,
-    timestamp: now.toISOString(),
-    btc: btc || null,
-    fleet: {
-      total: TOTAL_MACHINES,
-      online: totalOnline,
-      offline: totalOffline,
-      utilisation: parseFloat(fleetUtil.toFixed(2)),
-    },
-    power: {
-      rate: POWER_RATE,
-      machine_watts: MACHINE_WATTS,
-      online_kw: parseFloat((onlineWatts / 1000).toFixed(2)),
-      daily_cost: parseFloat(dailyPowerCost.toFixed(2)),
-      max_daily_cost: parseFloat(maxDailyPower.toFixed(2)),
-    },
-    revenue: {
-      btc_mined: mined24h || null,
-      usd: revenue !== null ? parseFloat(revenue.toFixed(2)) : null,
-      net_profit: netProfit !== null ? parseFloat(netProfit.toFixed(2)) : null,
-    },
-    pools: {
-      luxor: luxor ? { online: luxorOnline, offline: luxorOffline + luxorDead } : null,
-      f2pool: f2pool ? { online: f2Online, offline: f2Offline + f2Dead, hashrate_24h: f2pool.hashrate_24h } : null,
-    },
+    date: sydneyDate, timestamp: now.toISOString(), btc: btc || null,
+    fleet: { total: TOTAL_MACHINES, online: totalOnline, offline: totalOffline, utilisation: parseFloat(((totalOnline/TOTAL_MACHINES)*100).toFixed(2)) },
+    power: { rate: POWER_RATE, machine_watts: MACHINE_WATTS, online_kw: parseFloat((onlineWatts/1000).toFixed(2)), daily_cost: parseFloat(dailyPowerCost.toFixed(2)), max_daily_cost: parseFloat(maxDailyPower.toFixed(2)) },
+    revenue: { btc_mined: mined24h || null, usd: revenue !== null ? parseFloat(revenue.toFixed(2)) : null, net_profit: netProfit !== null ? parseFloat(netProfit.toFixed(2)) : null },
+    pools: { luxor: luxor ? { online: luxorOnline, offline: luxorOffline + luxorDead } : null, f2pool: f2pool ? { online: f2Online, offline: f2Offline + f2Dead, hashrate_24h: f2pool.hashrate_24h } : null },
     down_workers: downWorkers,
   };
 }
 
-// ─── Main ─────────────────────────────────────────────────────────────────────
-
 async function main() {
   console.log('Fetching data...');
   const [btc, luxor, f2pool] = await Promise.all([
-    getBtcPrice().catch(e => { console.error('BTC price failed:', e.message); return null; }),
+    getBtcPrice().catch(e => { console.error('BTC failed:', e.message); return null; }),
     fetchLuxor(),
     fetchF2Pool(),
   ]);
-
+  console.log(`BTC: $${btc?.price || '—'} | Luxor: ${luxor?.total ?? 'failed'} | F2Pool: ${f2pool?.total ?? 'failed'}`);
   const snapshot = buildSnapshot(btc, luxor, f2pool);
-  console.log(`Snapshot: ${snapshot.date} | Online: ${snapshot.fleet.online}/${snapshot.fleet.total} | BTC: $${btc?.price?.toFixed(0) || '—'}`);
-
-  // Write latest.json
   fs.writeFileSync(path.join(DATA_DIR, 'latest.json'), JSON.stringify(snapshot, null, 2));
-
-  // Load + update history.json (rolling 90-day)
   const historyPath = path.join(DATA_DIR, 'history.json');
   let history = [];
   try { history = JSON.parse(fs.readFileSync(historyPath, 'utf-8')); } catch {}
-
-  // Replace today's entry if it already exists, otherwise prepend
   const idx = history.findIndex(h => h.date === snapshot.date);
-  if (idx >= 0) history[idx] = snapshot;
-  else history.unshift(snapshot);
-
-  // Keep 90 days
+  if (idx >= 0) history[idx] = snapshot; else history.unshift(snapshot);
   history = history.slice(0, 90);
   fs.writeFileSync(historyPath, JSON.stringify(history, null, 2));
-
-  console.log(`Done. History: ${history.length} days stored.`);
+  console.log(`Done. Online: ${snapshot.fleet.online}/${snapshot.fleet.total} | History: ${history.length} days`);
 }
 
 main().catch(e => { console.error(e); process.exit(1); });
