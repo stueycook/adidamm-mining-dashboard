@@ -45,7 +45,7 @@ async function fetchLuxor() {
       method: 'POST',
       headers: { 'x-lux-api-key': LUXOR_API_KEY, 'Content-Type': 'application/json' },
       body: JSON.stringify({ query: `{
-        getWorkerDetails(mpn: BTC, uname: "adidamm", first: 1000, duration: {days: 1}) {
+        getWorkerDetails(mpn: BTC, uname: "iwah2478", first: 1000, duration: {days: 1}) {
           edges { node { workerName status hashrate updatedAt } }
           totalCount
         }
