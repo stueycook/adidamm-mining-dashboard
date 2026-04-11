@@ -41,33 +41,32 @@ async function luxorGet(endpoint) {
 async function fetchLuxor() {
   if (!LUXOR_API_KEY) { console.log('Luxor: no API key'); return null; }
   try {
-    const wsResp = await luxorGet('/workspace');
-    console.log('Luxor workspace:', JSON.stringify(wsResp).slice(0,300));
-    let workspaceId = null;
-    if (Array.isArray(wsResp)) workspaceId = wsResp[0]?.id || wsResp[0]?.slug;
-    else if (wsResp?.data) { const d = Array.isArray(wsResp.data) ? wsResp.data[0] : wsResp.data; workspaceId = d?.id || d?.slug; }
-    else workspaceId = wsResp?.id || wsResp?.slug;
-    if (!workspaceId) throw new Error('No workspace ID in: ' + JSON.stringify(wsResp).slice(0,200));
-    console.log('Luxor workspace ID:', workspaceId);
-
-    const subsResp = await luxorGet(`/subaccounts`);
-    console.log('Luxor subaccounts:', JSON.stringify(subsResp).slice(0,300));
-    const subList = Array.isArray(subsResp) ? subsResp : (subsResp?.data || subsResp?.subaccounts || []);
-    if (!subList.length) { console.log('Luxor: no subaccounts'); return null; }
-
-    const results = await Promise.allSettled(subList.map(s => luxorGet(`/subaccount/${s.name || s.slug || s.id}/workers?status=all&limit=1000`)));
-    const workers = [];
-    results.forEach((r, i) => {
-      if (r.status !== 'fulfilled') { console.log(`Luxor sub ${i} failed:`, r.reason?.message); return; }
-      console.log(`Luxor sub ${i}:`, JSON.stringify(r.value).slice(0,200));
-      const raw = Array.isArray(r.value) ? r.value : (r.value?.data || r.value?.workers || []);
-      raw.forEach(w => workers.push({ name: w.name || w.worker_name || w.workerName || '', status: workerStatus(w), hashrate_24h: w.hashrate_24h || w.hashrate24h || 0, hashrate_15m: w.hashrate_15m || w.hashrate || 0, reject_rate: w.reject_rate || 0, last_share: w.last_share_at || w.last_share || null, pool: 'luxor' }));
+    const res = await fetch('https://api.luxor.tech/graphql', {
+      method: 'POST',
+      headers: { 'x-lux-api-key': LUXOR_API_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query: `{
+        getWorkerDetails(mpn: BTC, uname: "adidamm", first: 1000, duration: {days: 1}) {
+          edges { node { workerName status hashrate updatedAt } }
+          totalCount
+        }
+      }` }),
     });
+    const d = await res.json();
+    console.log('Luxor GraphQL:', JSON.stringify(d).slice(0, 400));
+    const edges = d?.data?.getWorkerDetails?.edges || [];
+    const workers = edges.map(e => ({
+      name: e.node.workerName,
+      status: e.node.status?.toLowerCase() === 'active' ? 'online' : 'offline',
+      hashrate_24h: parseFloat(e.node.hashrate) || 0,
+      hashrate_15m: 0,
+      reject_rate: 0,
+      last_share: e.node.updatedAt,
+      pool: 'luxor',
+    }));
     const online = workers.filter(w => w.status === 'online').length;
     const offline = workers.filter(w => w.status === 'offline').length;
-    const dead = workers.filter(w => w.status === 'dead').length;
-    console.log(`Luxor: ${online} online, ${offline} offline, ${dead} dead`);
-    return { workers, online, offline, dead, total: workers.length };
+    console.log(`Luxor: ${online} online, ${offline} offline`);
+    return { workers, online, offline, dead: 0, total: workers.length };
   } catch (e) { console.error('Luxor failed:', e.message); return null; }
 }
 
