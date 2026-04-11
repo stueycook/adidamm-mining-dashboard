@@ -50,7 +50,7 @@ async function fetchLuxor() {
     if (!workspaceId) throw new Error('No workspace ID in: ' + JSON.stringify(wsResp).slice(0,200));
     console.log('Luxor workspace ID:', workspaceId);
 
-    const subsResp = await luxorGet(`/workspace/${workspaceId}/subaccounts`);
+    const subsResp = await luxorGet(`/subaccounts`);
     console.log('Luxor subaccounts:', JSON.stringify(subsResp).slice(0,300));
     const subList = Array.isArray(subsResp) ? subsResp : (subsResp?.data || subsResp?.subaccounts || []);
     if (!subList.length) { console.log('Luxor: no subaccounts'); return null; }
