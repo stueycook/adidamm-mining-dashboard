@@ -9,7 +9,6 @@ import fs from 'fs';
 import path from 'path';
 
 const LUXOR_API_KEY   = process.env.LUXOR_API_KEY   || '';
-const LUXOR_WORKSPACE = process.env.LUXOR_WORKSPACE  || '';
 const F2POOL_SECRET   = process.env.F2POOL_SECRET    || '';
 const F2POOL_USER     = process.env.F2POOL_USER      || '';
 const POWER_RATE      = parseFloat(process.env.POWER_RATE || '0.07');
@@ -62,8 +61,10 @@ function workerStatus(w) {
 async function fetchLuxor() {
   if (!LUXOR_API_KEY || !LUXOR_WORKSPACE) return null;
   try {
-    const subs = await luxorGet(`/workspace/${LUXOR_WORKSPACE}/subaccounts`);
-    const subList = subs.data || subs.subaccounts || [];
+const ws = await luxorGet('/workspace');
+const workspaceId = ws.data?.[0]?.id || ws.id;
+const subs = await luxorGet(`/workspace/${workspaceId}/subaccounts`);
+const subList = subs.data || subs.subaccounts || [];
     const results = await Promise.allSettled(
       subList.map(s => luxorGet(`/subaccount/${s.name || s.id}/workers?status=all&limit=1000`))
     );
