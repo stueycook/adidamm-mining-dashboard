@@ -1,9 +1,9 @@
 {
-  "date": "2026-04-21",
-  "timestamp": "2026-04-20T20:35:22.557Z",
+  "date": "2026-04-22",
+  "timestamp": "2026-04-21T20:39:27.689Z",
   "btc": {
-    "price": 76258,
-    "change24h": 1.8708118957347124,
+    "price": 75780,
+    "change24h": -0.6437370694399912,
     "high24h": null,
     "low24h": null
   },
@@ -30,7 +30,7 @@
     "f2pool": {
       "online": 0,
       "offline": 114,
-      "hashrate_24h": 14360775124284134
+      "hashrate_24h": 0
     }
   },
   "down_workers": [
@@ -38,7 +38,49 @@
       "name": "",
       "status": "offline",
       "pool": "f2pool",
-      "last_share": 1776680919
+      "last_share": 1776680942
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680939
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680938
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680918
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680929
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680946
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680940
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680934
     },
     {
       "name": "",
@@ -56,13 +98,13 @@
       "name": "",
       "status": "offline",
       "pool": "f2pool",
-      "last_share": 1776680938
+      "last_share": 1776680896
     },
     {
       "name": "",
       "status": "offline",
       "pool": "f2pool",
-      "last_share": 1776680934
+      "last_share": 1776680954
     },
     {
       "name": "",
@@ -74,31 +116,19 @@
       "name": "",
       "status": "offline",
       "pool": "f2pool",
+      "last_share": 1776680910
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680920
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
       "last_share": 1776680921
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680942
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680930
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680931
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680929
     },
     {
       "name": "",
@@ -110,7 +140,13 @@
       "name": "",
       "status": "offline",
       "pool": "f2pool",
-      "last_share": 1776680935
+      "last_share": 1776680947
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680912
     },
     {
       "name": "",
@@ -122,7 +158,55 @@
       "name": "",
       "status": "offline",
       "pool": "f2pool",
-      "last_share": 1776680925
+      "last_share": 1776680945
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680927
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680926
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680939
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680926
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680937
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680938
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680939
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680938
     },
     {
       "name": "",
@@ -134,13 +218,133 @@
       "name": "",
       "status": "offline",
       "pool": "f2pool",
-      "last_share": 1776680922
+      "last_share": 1776680960
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680921
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680920
     },
     {
       "name": "",
       "status": "offline",
       "pool": "f2pool",
       "last_share": 1776680930
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680893
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680925
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680879
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680919
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680953
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680922
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680941
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680902
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680899
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680954
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680940
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680918
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680928
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680859
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680899
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680919
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680933
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680938
     },
     {
       "name": "",
@@ -158,31 +362,7 @@
       "name": "",
       "status": "offline",
       "pool": "f2pool",
-      "last_share": 1776680871
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680921
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680921
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680940
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680943
+      "last_share": 1776680874
     },
     {
       "name": "",
@@ -194,25 +374,79 @@
       "name": "",
       "status": "offline",
       "pool": "f2pool",
-      "last_share": 1776680918
+      "last_share": 1776680945
     },
     {
       "name": "",
       "status": "offline",
       "pool": "f2pool",
-      "last_share": 1776680908
+      "last_share": 1776680930
     },
     {
       "name": "",
       "status": "offline",
       "pool": "f2pool",
-      "last_share": 1776680954
+      "last_share": 1776680945
     },
     {
       "name": "",
       "status": "offline",
       "pool": "f2pool",
-      "last_share": 1776680887
+      "last_share": 1776680943
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680931
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680952
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680919
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680914
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680927
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680900
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680935
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680946
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680932
     },
     {
       "name": "",
@@ -224,13 +458,43 @@
       "name": "",
       "status": "offline",
       "pool": "f2pool",
-      "last_share": 1776680940
+      "last_share": 1776680927
     },
     {
       "name": "",
       "status": "offline",
       "pool": "f2pool",
-      "last_share": 1776680946
+      "last_share": 1776680914
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680955
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680959
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680947
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680856
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680871
     },
     {
       "name": "",
@@ -248,127 +512,7 @@
       "name": "",
       "status": "offline",
       "pool": "f2pool",
-      "last_share": 1776680940
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680924
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680859
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680926
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680879
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680936
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680927
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680937
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680920
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680939
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680945
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680920
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680960
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680942
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680919
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680933
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680902
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680874
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680956
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680952
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680906
+      "last_share": 1776680929
     },
     {
       "name": "",
@@ -380,61 +524,13 @@
       "name": "",
       "status": "offline",
       "pool": "f2pool",
-      "last_share": 1776680918
+      "last_share": 1776680952
     },
     {
       "name": "",
       "status": "offline",
       "pool": "f2pool",
-      "last_share": 1776680910
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680927
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680953
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680919
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680899
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680954
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680928
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680945
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680942
+      "last_share": 1776680960
     },
     {
       "name": "",
@@ -446,115 +542,13 @@
       "name": "",
       "status": "offline",
       "pool": "f2pool",
-      "last_share": 1776680896
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680939
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680940
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680952
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680920
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680914
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680941
+      "last_share": 1776680887
     },
     {
       "name": "",
       "status": "offline",
       "pool": "f2pool",
       "last_share": 1776680919
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680926
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680943
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680929
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680945
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680940
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680899
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680938
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680934
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680947
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680938
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680945
     },
     {
       "name": "",
@@ -566,37 +560,7 @@
       "name": "",
       "status": "offline",
       "pool": "f2pool",
-      "last_share": 1776680947
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680893
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680912
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680941
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680900
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680926
+      "last_share": 1776680940
     },
     {
       "name": "",
@@ -608,61 +572,7 @@
       "name": "",
       "status": "offline",
       "pool": "f2pool",
-      "last_share": 1776680946
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680879
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680945
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680927
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680919
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680959
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680919
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680938
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680942
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680914
+      "last_share": 1776680921
     },
     {
       "name": "",
@@ -674,37 +584,31 @@
       "name": "",
       "status": "offline",
       "pool": "f2pool",
-      "last_share": 1776680939
+      "last_share": 1776680942
     },
     {
       "name": "",
       "status": "offline",
       "pool": "f2pool",
-      "last_share": 1776680955
+      "last_share": 1776680879
     },
     {
       "name": "",
       "status": "offline",
       "pool": "f2pool",
-      "last_share": 1776680932
+      "last_share": 1776680940
     },
     {
       "name": "",
       "status": "offline",
       "pool": "f2pool",
-      "last_share": 1776680938
+      "last_share": 1776680941
     },
     {
       "name": "",
       "status": "offline",
       "pool": "f2pool",
-      "last_share": 1776680960
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1776680856
+      "last_share": 1776680942
     },
     {
       "name": "",
@@ -716,7 +620,103 @@
       "name": "",
       "status": "offline",
       "pool": "f2pool",
+      "last_share": 1776680936
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680942
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680945
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680924
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
       "last_share": 1776680941
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680920
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680943
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680906
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680956
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680919
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680926
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680919
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680934
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680908
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680945
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680938
+    },
+    {
+      "name": "",
+      "status": "offline",
+      "pool": "f2pool",
+      "last_share": 1776680940
     }
   ]
 }
