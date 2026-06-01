@@ -1,23 +1,23 @@
 {
-  "date": "2026-06-01",
-  "timestamp": "2026-05-31T20:46:44.463Z",
+  "date": "2026-06-02",
+  "timestamp": "2026-06-01T22:29:06.914Z",
   "btc": {
-    "price": 73576,
-    "change24h": -0.33793288743650723,
+    "price": 71218,
+    "change24h": -3.5211776833790447,
     "high24h": null,
     "low24h": null
   },
   "fleet": {
     "total": 590,
-    "online": 97,
+    "online": 98,
     "offline": 0,
-    "utilisation": 16.44
+    "utilisation": 16.61
   },
   "power": {
     "rate": 0.07,
     "machine_watts": 3900,
-    "online_kw": 378.3,
-    "daily_cost": 635.54,
+    "online_kw": 382.2,
+    "daily_cost": 642.1,
     "max_daily_cost": 3865.68
   },
   "revenue": {
@@ -28,9 +28,9 @@
   "pools": {
     "luxor": null,
     "f2pool": {
-      "online": 97,
+      "online": 98,
       "offline": 0,
-      "hashrate_24h": 21618167186890750
+      "hashrate_24h": 21738669589029730
     }
   },
   "down_workers": []
