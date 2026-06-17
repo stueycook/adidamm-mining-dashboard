@@ -1,5 +1,73 @@
 [
   {
+    "date": "2026-06-18",
+    "timestamp": "2026-06-17T21:51:56.015Z",
+    "btc": {
+      "price": 64156,
+      "change24h": -2.3743291320422477,
+      "high24h": null,
+      "low24h": null
+    },
+    "fleet": {
+      "total": 590,
+      "online": 93,
+      "offline": 5,
+      "utilisation": 15.76
+    },
+    "power": {
+      "rate": 0.07,
+      "machine_watts": 3900,
+      "online_kw": 362.7,
+      "daily_cost": 609.34,
+      "max_daily_cost": 3865.68
+    },
+    "revenue": {
+      "btc_mined": null,
+      "usd": null,
+      "net_profit": null
+    },
+    "pools": {
+      "luxor": null,
+      "f2pool": {
+        "online": 93,
+        "offline": 5,
+        "hashrate_24h": 20245553159836360
+      }
+    },
+    "down_workers": [
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1781574712
+      },
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1781574773
+      },
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1781574746
+      },
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1781574772
+      },
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1781574694
+      }
+    ]
+  },
+  {
     "date": "2026-06-17",
     "timestamp": "2026-06-16T22:04:48.864Z",
     "btc": {
