@@ -1,16 +1,16 @@
 {
-  "date": "2026-06-25",
-  "timestamp": "2026-06-24T21:15:47.412Z",
+  "date": "2026-06-26",
+  "timestamp": "2026-06-25T21:20:04.710Z",
   "btc": {
-    "price": 60649,
-    "change24h": -2.831818910367807,
+    "price": 59474,
+    "change24h": -2.064058106697213,
     "high24h": null,
     "low24h": null
   },
   "fleet": {
     "total": 590,
     "online": 91,
-    "offline": 2,
+    "offline": 0,
     "utilisation": 15.42
   },
   "power": {
@@ -29,22 +29,9 @@
     "luxor": null,
     "f2pool": {
       "online": 91,
-      "offline": 2,
-      "hashrate_24h": 19750452440059000
+      "offline": 0,
+      "hashrate_24h": 20127444842460256
     }
   },
-  "down_workers": [
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1782191882
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1782191870
-    }
-  ]
+  "down_workers": []
 }
