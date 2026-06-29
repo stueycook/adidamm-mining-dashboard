@@ -1,9 +1,9 @@
 {
-  "date": "2026-06-29",
-  "timestamp": "2026-06-28T20:50:38.940Z",
+  "date": "2026-06-30",
+  "timestamp": "2026-06-29T21:15:30.906Z",
   "btc": {
-    "price": 59601,
-    "change24h": -0.9867532476224227,
+    "price": 60306,
+    "change24h": 1.1962853944177836,
     "high24h": null,
     "low24h": null
   },
@@ -30,7 +30,7 @@
     "f2pool": {
       "online": 88,
       "offline": 0,
-      "hashrate_24h": 19534059592729036
+      "hashrate_24h": 19429360430493460
     }
   },
   "down_workers": []
