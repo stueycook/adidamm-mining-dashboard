@@ -1,5 +1,199 @@
 [
   {
+    "date": "2026-07-03",
+    "timestamp": "2026-07-02T20:52:22.888Z",
+    "btc": {
+      "price": 61400,
+      "change24h": 2.2431983938122424,
+      "high24h": null,
+      "low24h": null
+    },
+    "fleet": {
+      "total": 590,
+      "online": 62,
+      "offline": 26,
+      "utilisation": 10.51
+    },
+    "power": {
+      "rate": 0.07,
+      "machine_watts": 3900,
+      "online_kw": 241.8,
+      "daily_cost": 406.22,
+      "max_daily_cost": 3865.68
+    },
+    "revenue": {
+      "btc_mined": null,
+      "usd": null,
+      "net_profit": null
+    },
+    "pools": {
+      "luxor": null,
+      "f2pool": {
+        "online": 62,
+        "offline": 26,
+        "hashrate_24h": 14595763156598958
+      }
+    },
+    "down_workers": [
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1782951150
+      },
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1782950987
+      },
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1782950823
+      },
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1782951158
+      },
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1782950864
+      },
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1782951228
+      },
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1782951283
+      },
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1782951269
+      },
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1782951214
+      },
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1782951132
+      },
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1782951041
+      },
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1782950945
+      },
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1782951262
+      },
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1782951327
+      },
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1782951110
+      },
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1782951059
+      },
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1782950863
+      },
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1782951025
+      },
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1782950931
+      },
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1782951216
+      },
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1782951099
+      },
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1782951080
+      },
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1782951329
+      },
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1782951211
+      },
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1782951154
+      },
+      {
+        "name": "",
+        "status": "offline",
+        "pool": "f2pool",
+        "last_share": 1782951272
+      }
+    ]
+  },
+  {
     "date": "2026-07-02",
     "timestamp": "2026-07-01T21:15:30.189Z",
     "btc": {
