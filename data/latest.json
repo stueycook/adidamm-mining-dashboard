@@ -1,16 +1,16 @@
 {
-  "date": "2026-07-05",
-  "timestamp": "2026-07-04T20:41:52.036Z",
+  "date": "2026-07-06",
+  "timestamp": "2026-07-05T20:44:48.970Z",
   "btc": {
-    "price": 63201,
-    "change24h": 0.8787260907554008,
+    "price": 62686,
+    "change24h": -0.8512758096790113,
     "high24h": null,
     "low24h": null
   },
   "fleet": {
     "total": 590,
     "online": 54,
-    "offline": 8,
+    "offline": 0,
     "utilisation": 9.15
   },
   "power": {
@@ -29,58 +29,9 @@
     "luxor": null,
     "f2pool": {
       "online": 54,
-      "offline": 8,
-      "hashrate_24h": 11112217931156896
+      "offline": 0,
+      "hashrate_24h": 12099690138515588
     }
   },
-  "down_workers": [
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1783040425
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1783040312
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1783040376
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1783040345
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1783040175
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1783040376
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1783040391
-    },
-    {
-      "name": "",
-      "status": "offline",
-      "pool": "f2pool",
-      "last_share": 1783040335
-    }
-  ]
+  "down_workers": []
 }
