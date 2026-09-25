@@ -1,5 +1,42 @@
 [
   {
+    "date": "2026-09-26",
+    "timestamp": "2026-09-25T22:54:46.715Z",
+    "btc": {
+      "price": 84052,
+      "change24h": -0.19924250337547753,
+      "high24h": null,
+      "low24h": null
+    },
+    "fleet": {
+      "total": 590,
+      "online": 0,
+      "offline": 0,
+      "utilisation": 0
+    },
+    "power": {
+      "rate": 0.07,
+      "machine_watts": 3900,
+      "online_kw": 0,
+      "daily_cost": 0,
+      "max_daily_cost": 3865.68
+    },
+    "revenue": {
+      "btc_mined": null,
+      "usd": null,
+      "net_profit": null
+    },
+    "pools": {
+      "luxor": null,
+      "f2pool": {
+        "online": 0,
+        "offline": 0,
+        "hashrate_24h": 0
+      }
+    },
+    "down_workers": []
+  },
+  {
     "date": "2026-09-25",
     "timestamp": "2026-09-24T22:48:14.278Z",
     "btc": {
@@ -4643,61 +4680,5 @@
       }
     },
     "down_workers": []
-  },
-  {
-    "date": "2026-06-28",
-    "timestamp": "2026-06-27T20:48:22.240Z",
-    "btc": {
-      "price": 60194,
-      "change24h": 0.971198455385187,
-      "high24h": null,
-      "low24h": null
-    },
-    "fleet": {
-      "total": 590,
-      "online": 88,
-      "offline": 3,
-      "utilisation": 14.92
-    },
-    "power": {
-      "rate": 0.07,
-      "machine_watts": 3900,
-      "online_kw": 343.2,
-      "daily_cost": 576.58,
-      "max_daily_cost": 3865.68
-    },
-    "revenue": {
-      "btc_mined": null,
-      "usd": null,
-      "net_profit": null
-    },
-    "pools": {
-      "luxor": null,
-      "f2pool": {
-        "online": 88,
-        "offline": 3,
-        "hashrate_24h": 19601552095933744
-      }
-    },
-    "down_workers": [
-      {
-        "name": "",
-        "status": "offline",
-        "pool": "f2pool",
-        "last_share": 1782450055
-      },
-      {
-        "name": "",
-        "status": "offline",
-        "pool": "f2pool",
-        "last_share": 1782457691
-      },
-      {
-        "name": "",
-        "status": "offline",
-        "pool": "f2pool",
-        "last_share": 1782457762
-      }
-    ]
   }
 ]
