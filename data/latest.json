@@ -1,9 +1,9 @@
 {
-  "date": "2026-09-30",
-  "timestamp": "2026-09-29T23:15:17.941Z",
+  "date": "2026-10-01",
+  "timestamp": "2026-09-30T23:18:21.991Z",
   "btc": {
-    "price": 83815.505,
-    "change24h": null,
+    "price": 83634,
+    "change24h": -0.2074663351961031,
     "high24h": null,
     "low24h": null
   },
