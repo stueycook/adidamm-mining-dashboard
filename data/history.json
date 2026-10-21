@@ -1,5 +1,42 @@
 [
   {
+    "date": "2026-10-22",
+    "timestamp": "2026-10-21T22:51:58.032Z",
+    "btc": {
+      "price": 84420,
+      "change24h": 1.7363537635096495,
+      "high24h": null,
+      "low24h": null
+    },
+    "fleet": {
+      "total": 590,
+      "online": 0,
+      "offline": 0,
+      "utilisation": 0
+    },
+    "power": {
+      "rate": 0.07,
+      "machine_watts": 3900,
+      "online_kw": 0,
+      "daily_cost": 0,
+      "max_daily_cost": 3865.68
+    },
+    "revenue": {
+      "btc_mined": null,
+      "usd": null,
+      "net_profit": null
+    },
+    "pools": {
+      "luxor": null,
+      "f2pool": {
+        "online": 0,
+        "offline": 0,
+        "hashrate_24h": 0
+      }
+    },
+    "down_workers": []
+  },
+  {
     "date": "2026-10-21",
     "timestamp": "2026-10-20T22:46:21.083Z",
     "btc": {
@@ -3551,43 +3588,6 @@
     "btc": {
       "price": 64091,
       "change24h": -1.530856360777124,
-      "high24h": null,
-      "low24h": null
-    },
-    "fleet": {
-      "total": 590,
-      "online": 0,
-      "offline": 0,
-      "utilisation": 0
-    },
-    "power": {
-      "rate": 0.07,
-      "machine_watts": 3900,
-      "online_kw": 0,
-      "daily_cost": 0,
-      "max_daily_cost": 3865.68
-    },
-    "revenue": {
-      "btc_mined": null,
-      "usd": null,
-      "net_profit": null
-    },
-    "pools": {
-      "luxor": null,
-      "f2pool": {
-        "online": 0,
-        "offline": 0,
-        "hashrate_24h": 0
-      }
-    },
-    "down_workers": []
-  },
-  {
-    "date": "2026-07-24",
-    "timestamp": "2026-07-23T20:49:53.327Z",
-    "btc": {
-      "price": 65073,
-      "change24h": -1.2124938126668248,
       "high24h": null,
       "low24h": null
     },
